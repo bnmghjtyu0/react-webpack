@@ -1,0 +1,56 @@
+.App {
+  padding: 20px;
+}
+.wrap {
+  padding: 0 20px;
+  border: 1px dotted #333;
+}
+
+.custom-input-number {
+  .btn,
+  input {
+    width: 48px;
+    height: 48px;
+    margin: 8px;
+    padding: 0;
+    font-size: 16px;
+  }
+
+  .btn {
+    background-color: #fff;
+    border: 1px solid green;
+    color: green;
+  }
+
+  input {
+    text-align: center;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.room-all-location {
+  padding: 10px 0;
+  &:not(:last-child) {
+    border-bottom: 1px solid #333;
+  }
+  .title {
+  }
+  .sub-title {
+    display: block;
+    font-size: 15px;
+    color: #ccc;
+  }
+  .right {
+    margin-left: auto;
+  }
+}
