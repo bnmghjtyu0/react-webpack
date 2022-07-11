@@ -39,9 +39,11 @@ input[type="number"] {
 }
 
 .room-all-location {
-  padding: 10px 0;
-  &:not(:last-child) {
-    border-bottom: 1px solid #333;
+  .room-all-location-card {
+    padding: 10px 0;
+    &:not(:last-child) {
+      border-bottom: 1px solid #333;
+    }
   }
   .title {
   }
