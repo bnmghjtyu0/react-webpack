@@ -8,7 +8,7 @@ import * as React from "react";
 // 式
 // ■ 調整 min 或 max 確認加減變化是否在範圍內
 // ■ 調整 step 確認加減變化是否符合 step 間隔
-const CustomInputNumber = React.forwardRef((props, ref) => {
+const CustomInputNumber = (props) => {
   const {
     min,
     max,
@@ -20,18 +20,13 @@ const CustomInputNumber = React.forwardRef((props, ref) => {
     onChange,
   } = props;
 
-  /** input:number */
+  /** 數字 input ref */
   const countRef = React.useRef(0);
-
-  React.useImperativeHandle(ref, () => ({
-    countRef,
-  }));
 
   /**
    * 增加
    */
   const add = () => {
-    countRef.current.focus();
     if (countRef.current.value >= max || disabled) return;
     countRef.current.value = Number(countRef.current.value) + step;
     onChange(countRef.current.value);
@@ -41,8 +36,7 @@ const CustomInputNumber = React.forwardRef((props, ref) => {
    * 減少
    */
   const cut = () => {
-    countRef.current.focus();
-    if (countRef.current.value <= min || disabled) return;
+    if (countRef.current.value <= min) return;
     countRef.current.value = Number(countRef.current.value) - step;
     onChange(countRef.current.value);
   };
@@ -66,6 +60,7 @@ const CustomInputNumber = React.forwardRef((props, ref) => {
       onChange(countRef.current.value);
     }
   };
+
   return (
     <div className="custom-input-number">
       <button className="btn" onClick={cut}>
@@ -90,6 +85,6 @@ const CustomInputNumber = React.forwardRef((props, ref) => {
       </button>
     </div>
   );
-});
+}
 
 export default CustomInputNumber;
