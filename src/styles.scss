@@ -1,12 +1,31 @@
+:root { 
+  --primary:rgb(238, 250, 252);
+  --primary-dark:rgb(152, 205, 228);
+}
+
 .App {
   padding: 20px;
 }
-.wrap {
-  padding: 0 20px;
-  border: 1px dotted #333;
+
+.alert-primary {
+  background-color: var(--primary);
+  border: 1px solid var(--primary-dark);
+  color: #333;
+}
+
+
+.room-app {
+  padding: 20px 20px 0px 20px;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+
+  h4.room-app-title {
+    font-size: 20px;
+  }
 }
 
 .custom-input-number {
+  display: flex;
+  align-items: center;
   .btn,
   input {
     width: 48px;
@@ -14,20 +33,23 @@
     margin: 8px;
     padding: 0;
     font-size: 16px;
+    border-radius: 4px;
   }
-
   .btn {
     background-color: #fff;
-    border: 1px solid green;
-    color: green;
+    border: 1px solid var(--primary-dark);
+    color: var(--primary-dark);
+    font-size: 20px;
   }
-
   input {
     text-align: center;
+   
+    border:1px solid #333;
+    
   }
 }
 
-/* Chrome, Safari, Edge, Opera */
+//隱藏數字 input 上下按鈕
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -42,10 +64,13 @@ input[type="number"] {
   .room-all-location-card {
     padding: 10px 0;
     &:not(:last-child) {
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid #ccc;
     }
-  }
-  .title {
+
+    h4 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
   }
   .sub-title {
     display: block;

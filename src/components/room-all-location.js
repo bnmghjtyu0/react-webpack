@@ -2,14 +2,11 @@ import * as React from "react";
 import CustomInputNumber from "./custom-input-number";
 import { range } from "../common/utils";
 
-// ■ 調整 guest 跟 room 的數量確認顯示是否正常 完成
-// ■ 調整房間分配人數確認尚未分配人數顯示是否正常 完成
-// ■ onChange 不能收到 result 總合超過 guest 人數的值
+/**
+ * 房間
+ * @param props - guest 住客人數, room 房間數, onChange 回傳結果
+ */
 const RoomAllLocation = (props) => {
-  /**
-   * guest 住客人數
-   * room 房間數
-   */
   const { guest = 10, room = 3, onChange } = props;
   const [state, setState] = React.useState([]);
 
@@ -20,9 +17,7 @@ const RoomAllLocation = (props) => {
     });
   }, []);
 
-  /**
-   * 住客人數是否小於等於房間數
-   */
+  /** 住客人數是否小於等於房間數 */
   const checkHasRoom = React.useMemo(() => guest <= room, [guest, room]);
 
   /**
@@ -31,22 +26,30 @@ const RoomAllLocation = (props) => {
   const handleChange = (state, numIndex) => {
     //淺拷貝一份資料
     const stateCopy = [...state];
+    // 房間人數: 大人+小孩
     const people = state[numIndex].audit + state[numIndex].child;
-    if (people >= room * 4) {
+    // 四人房
+    if (people >= 4) {
       stateCopy[numIndex].disabled = true;
-      setState(stateCopy);
     } else {
       stateCopy[numIndex].disabled = false;
-      setState(stateCopy);
-
-      //傳遞資料到父層
-      const newState = stateCopy.map((data) => ({
-        audit: data.audit,
-        child: data.child,
-      }));
-
-      onChange(newState);
     }
+    // 更新資料
+    setState(stateCopy);
+
+    const totalPeople = state.reduce(
+      (acc, curr) => acc + curr.audit + curr.child,
+      0
+    );
+    //檢核: onChange 不能收到 result 總合超過 guest 人數的值
+    if (totalPeople > guest) return;
+
+    //傳遞資料到父層
+    const newState = stateCopy.map((data) => ({
+      audit: data.audit,
+      child: data.child,
+    }));
+    onChange(newState);
   };
 
   return (
@@ -55,7 +58,7 @@ const RoomAllLocation = (props) => {
         range(room).map((num, numIndex) => {
           return (
             <div className="room-all-location-card" key={numIndex}>
-              房間: {state[numIndex].audit + state[numIndex].child} 人
+              <h4>房間: {state[numIndex].audit + state[numIndex].child} 人</h4>
               <div className="d-flex">
                 <p className="title">
                   大人 <span className="sub-title">年齡 20+</span>
