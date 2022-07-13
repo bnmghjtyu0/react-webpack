@@ -3,6 +3,6 @@
  * @param number -數字
  * @returns 回傳數字陣列
  */
-export const range = (number) => {
+export const range = (number: number) => {
   return [...Array(number)].map((_, i) => i);
 };

@@ -1,14 +1,12 @@
 import * as React from "react";
 import CustomInputNumber from "./custom-input-number";
 import { range } from "../common/utils";
+import { Props, Result, State } from "../models/room-all-location";
 
-/**
- * 房間
- * @param props - guest 住客人數, room 房間數, onChange 回傳結果
- */
-const RoomAllLocation = (props) => {
+/** 房間元件 */
+const RoomAllLocation = (props: Props) => {
   const { guest = 10, room = 3, onChange } = props;
-  const [state, setState] = React.useState([]);
+  const [state, setState] = React.useState<State[]>([]);
 
   React.useEffect(() => {
     //依房間數量加入初始資料
@@ -22,8 +20,9 @@ const RoomAllLocation = (props) => {
 
   /**
    * 切換 input
+   * @param numIndex - 目前房間資料的索引
    */
-  const handleChange = (state, numIndex) => {
+  const handleChange = (numIndex: number): void => {
     //淺拷貝一份資料
     const stateCopy = [...state];
     // 房間人數: 大人+小孩
@@ -45,20 +44,23 @@ const RoomAllLocation = (props) => {
     if (totalPeople > guest) return;
 
     //傳遞資料到父層
-    const newState = stateCopy.map((data) => ({
+    const newState: Result[] = stateCopy.map((data) => ({
       audit: data.audit,
       child: data.child,
     }));
-    onChange(newState);
+
+    if (onChange) {
+      onChange(newState);
+    }
   };
 
   return (
     <div className="room-all-location">
       {state.length !== 0 ? (
-        range(room).map((num, numIndex) => {
+        range(room).map((num) => {
           return (
-            <div className="room-all-location-card" key={numIndex}>
-              <h4>房間: {state[numIndex].audit + state[numIndex].child} 人</h4>
+            <div className="room-all-location-card" key={num}>
+              <h4>房間: {state[num].audit + state[num].child} 人</h4>
               <div className="d-flex">
                 <p className="title">
                   大人 <span className="sub-title">年齡 20+</span>
@@ -69,12 +71,12 @@ const RoomAllLocation = (props) => {
                     max={10}
                     step={1}
                     name="a"
-                    value={state[numIndex].audit}
-                    disabled={state[numIndex].disabled || checkHasRoom}
-                    onChange={(value) => {
+                    value={state[num].audit}
+                    disabled={state[num].disabled || checkHasRoom}
+                    onChange={(value: Number) => {
                       // 更新房間大人的數量
-                      state[numIndex].audit = Number(value);
-                      handleChange(state, numIndex);
+                      state[num].audit = Number(value);
+                      handleChange(num);
                     }}
                   />
                 </div>
@@ -87,13 +89,13 @@ const RoomAllLocation = (props) => {
                     max={10}
                     step={1}
                     name="a"
-                    value={state[numIndex].child}
-                    disabled={state[numIndex].disabled || checkHasRoom}
+                    value={state[num].child}
+                    disabled={state[num].disabled || checkHasRoom}
                     onChange={(value) => {
                       // 更新房間小孩的數量
-                      state[numIndex].child = Number(value);
+                      state[num].child = Number(value);
                       // 檢查房間是否足夠
-                      handleChange(state, numIndex);
+                      handleChange(num);
                     }}
                   />
                 </div>
